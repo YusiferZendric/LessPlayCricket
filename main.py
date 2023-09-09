@@ -235,10 +235,12 @@ def bowling(target,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored
                     if b not in Batsman.keys() or b==a:
                         print('Try again, batsman not in list or already chosed.')
                         continue
-                    else:
+                    elif b!=a and b in Batsman.keys():
                         break
+                    
                 partners = [[a,[0,0,{0:0, 1:0,2:0,3:0,4:0,6:0,-1:0}]],[b,[0,0,{0:0,1:0,2:0,3:0,4:0,6:0,-1:0}]]]
                 partners[active] = partners[0]
+                print(f"Partner 1: {partners[0]} | Partner 2: {partners[1]}")
                 batting(partners,target,totalOvers, bowlsPlayed,oversPlayed,wicketsDown,runsScored,1,a,c,Bowlers,Batsman,names,type1,partners[active],firstbattingfirstbowling,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored1,a1,0,Bowlers2,Batsman2)
 
                 return 
