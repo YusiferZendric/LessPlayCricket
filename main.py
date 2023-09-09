@@ -221,8 +221,8 @@ def bowling(target,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored
                 print("Available Batsman to chose from")
                 for i,j in Batsman.items():
                     print("-> ",i)
-                a = input("Choose the First Batsman: ")
-                b = input("Choose the Second Batsman: ")
+                # a = input("Choose the First Batsman: ")
+                # b = input("Choose the Second Batsman: ")
                 while True:
                     a = input("Choose the First Batsman: ")
                     if a not in Batsman.keys():
