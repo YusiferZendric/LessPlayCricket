@@ -1,13 +1,17 @@
-from __future__ import barry_as_FLUFL
-import os
 import random
 global partners,c,type1,allout
 Bowlers = {"woakes":[0,0,0], "archer":[0,0,0],"liam":[0,0,0],"wood":[0,0,0],"rashid":[0,0,0],"stokes":[0,0,0]} #livingston,mohd ali, sam curran, chris jordan
 Bowlers2 = {"jadeja":[0,0,0], "bhuvi":[0,0,0],"pandaya":[0,0,0],"shami":[0,0,0],"bumrah":[0,0,0],"chahal":[0,0,0]}
-Batsman = {"singh":[0,0,5],"rohan":[0,0,5],"kishan":[0,0,4],"iyer":[0,0,4],"pant":[0,0,4],"pandaya":[0,0,3],"jadeja":[0,0,3],"bhuvi":[0,0,2],"shami":[0,0,1],"bumrah":[0,0,1],"chahal":[0,0,1]}
-Batsman2 = {"roy":[0,0,5],"buttler":[0,0,5],"malan":[0,0,4],"barestrow":[0,0,4],"morgan":[0,0,4],"stokes":[0,0,3],"liam":[0,0,3],"woakes":[0,0,2],"archer":[0,0,1],"rashid":[0,0,1],"wood":[0,0,1]}
+Batsman = {"singh":[0,0,random.randint(1,10),[False, False, False]],"rohan":[0,0,random.randint(1,10),[False, False, False]],"kishan":[0,0,random.randint(1,8),[False, False, False]],"iyer":[0,0,random.randint(1,8),[False, False, False]],"pant":[0,0,random.randint(1,6),[False, False, False]],"pandaya":[0,0,random.randint(1,6),[False, False, False]],"jadeja":[0,0,random.randint(1,4),[False, False, False]],"bhuvi":[0,0,random.randint(1,3),[False, False, False]],"shami":[0,0,random.randint(1,2),[False, False, False]],"bumrah":[0,0,random.randint(1,2),[False, False, False]],"chahal":[0,0,random.randint(1,2),[False, False, False]]}
+Batsman2 = {"roy":[0,0,random.randint(1,10),[False, False, False]],"buttler":[0,0,random.randint(1,10),[False, False, False]],"malan":[0,0,random.randint(1,8),[False, False, False]],"barestrow":[0,0,random.randint(1,8),[False, False, False]],"morgan":[0,0,random.randint(1,6),[False, False, False]],"stokes":[0,0,random.randint(1,6),[False, False, False]],"liam":[0,0,random.randint(1,4),[False, False, False]],"woakes":[0,0,random.randint(1,3),[False, False, False]],"archer":[0,0,random.randint(1,2),[False, False, False]],"rashid":[0,0,random.randint(1,2),[False, False, False]],"wood":[0,0,random.randint(1,2),[False, False, False]]}
 names = {"roy":"Jason Roy","buttler":"Josh Buttler","malan":"Dawid Malan","barestrow":"Johhny Barestrow","morgan":"Eoin Morgan","woakes":"Chris Woakes","archer":"Jofra Archer","liam":"Liam Plunkett","wood":"Mark Wood","rashid":"Adil Rashid","stokes":"Ben Stokes","rohan":"Rohan Rajput","bhuvi":"Bhuvneshwar Kumar","kishan":'Ishan Kishan',"singh":"Aditya Singh","pant":"Rishabh Pant","iyer":"Shreyas Iyer","jadeja":"Ravindra Jadeja","pandaya":"Hardik Pandaya","shami":"Mohd Shami","bumrah":"Jasprit Bumrah","chahal":"Yuzvendra Chahal"}
-type1 = input("What type of match do you want?\n>> ")
+while True:
+    type1 = input("What type of match do you want?\n>> ")
+    if type1 not in ['odi', 't20i', 'test']:
+        print('try again! between (odi, t20i, test)')
+        continue
+    else:
+        break
 totalw = {0:0,1:0,2:0,3:0,4:0,6:0,-1:0}
 bowlerChoice = []
 battinglist = list(Batsman.keys())
@@ -44,7 +48,7 @@ def randomPlay():
 toss = []
 
 def Toss():
-    a = input('Heads or Tails?')
+    a = input('Heads or Tails?\n>> ')
     if random.choice(['Heads',"Tails"]) == a:
         b = int(input("You won the toss!\n1. Bat\n2. Bowl\n>> "))
         toss.append(True)
@@ -64,11 +68,13 @@ def batting(partners,target,totalOvers,bowlsPlayed,oversPlayed,wicketsDown,runsS
         if type1!='test' and totalOvers == {'t20i':20,'odi':50}[type1]-1 or wicketsDown == 10:
             if target[0] == -5:
                 target.remove(-5)
-                target.append(runsScored)
+                target.append(runsScored+1)
                 print(f"Target given to other side is {target[0]}")
+                
                 c1 = input("Choose the First Bowler: ")
+                    
                 bowling(target,totalOvers1, bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored1,1,a1,c1,Bowlers2,Batsman2,names,type1,firstbattingfirstbowling,totalOvers, bowlsPlayed,oversPlayed,wicketsDown,runsScored,c,Bowlers,Batsman)
-
+                
                 return 
             else:
                 if target[0]>runsScored:
@@ -82,7 +88,8 @@ def batting(partners,target,totalOvers,bowlsPlayed,oversPlayed,wicketsDown,runsS
                 if target[0] !=-5:
                     a = target[0] - runsScored
                     b = {"t20i":120,"odi":300}[type1]
-                    rrr = round((a/b-bowlsPlayed)*6,2)
+                    totalbowls = oversPlayed*6 + bowlsPlayed
+                    rrr = round(a/(b-totalbowls)*6,2)
                 print(f"{(f'Target: {target[0]} Runs | Required Run Rate: {rrr} | ') if target[0] != -5 else ''}Net Run Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {Bowlers[c][0]}-{Bowlers[c][2]} | {Bowlers[c][1] if i!=5 else Bowlers[c][1]+1}.{i+1 if i!=5 else 0}")
             else:
                 print(f"\nRun Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {Bowlers[c][0]}-{Bowlers[c][2]} | {Bowlers[c][1] if i!=5 else Bowlers[c][1]+1}.{i+1 if i!=5 else 0}")
@@ -149,7 +156,21 @@ def batting(partners,target,totalOvers,bowlsPlayed,oversPlayed,wicketsDown,runsS
                 Bowlers[c][0]+=d
                 partners[active][1][0]+=d
                 partners[active][1][1]+=1
+                # print(partners[active][1][3])
                 runsScored+=d
+                # print(f'before adding {Batsman[partners[active][0]][3][0]} and {partners[active][1][0]}')
+                if partners[active][1][0] > 30 and Batsman[partners[active][0]][3][0]==False and partners[active][1][0] < 50:
+                    print('inside 30 adding')
+                    Batsman[partners[active][0]][2]+=random.randint(1,3)
+                    Batsman[partners[active][0]][3][0]=True
+                if partners[active][1][0]>50 and Batsman[partners[active][0]][3][1]==False and partners[active][1][0] < 100:
+                    Batsman[partners[active][0]][2]+=random.randint(1,2)
+                    Batsman[partners[active][0]][3][1]=True
+                if partners[active][1][0]>100 and Batsman[partners[active][0]][3][2]==False:
+                    Batsman[partners[active][0]][2]+=random.randint(1,2)
+                    Batsman[partners[active][0]][3][2]=True              
+
+
                 currentOver.append(str(d))
                 if d%2 != 0:
                     # partners[active] = partners[Next]
@@ -195,10 +216,27 @@ def bowling(target,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored
         if type1 != 'test' and totalOvers1 == {'t20i':20,'odi':50}[type1]-1 or wicketsDown1 == 10:
             if target[0] == -5:
                 target.remove(-5)
-                target.append(runsScored1)
+                target.append(runsScored1+1)
                 print(f"Target given to other side is {target[0]} Runs")
+                print("Available Batsman to chose from")
+                for i,j in Batsman.items():
+                    print("-> ",i)
                 a = input("Choose the First Batsman: ")
                 b = input("Choose the Second Batsman: ")
+                while True:
+                    a = input("Choose the First Batsman: ")
+                    if a not in Batsman.keys():
+                        print('Try again, batsman not in list.')
+                        continue
+                    else:
+                        break
+                while True:
+                    b = input("Choose the Second Batsman: ")
+                    if b not in Batsman.keys() or b==a:
+                        print('Try again, batsman not in list or already chosed.')
+                        continue
+                    else:
+                        break
                 partners = [[a,[0,0,{0:0, 1:0,2:0,3:0,4:0,6:0,-1:0}]],[b,[0,0,{0:0,1:0,2:0,3:0,4:0,6:0,-1:0}]]]
                 partners[active] = partners[0]
                 batting(partners,target,totalOvers, bowlsPlayed,oversPlayed,wicketsDown,runsScored,1,a,c,Bowlers,Batsman,names,type1,partners[active],firstbattingfirstbowling,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored1,a1,0,Bowlers2,Batsman2)
@@ -217,7 +255,8 @@ def bowling(target,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored
                 if target[0] != -5:
                     a = target[0] - runsScored
                     b = {"t20i":120,"odi":300}[type1]
-                    rrr = round((a/b-bowlsPlayed)*6,2)
+                    totalbowls = oversPlayed*6 + bowlsPlayed
+                    rrr = round(a/(b-totalbowls)*6,2)
                 print(f"{(f'Target: {target[0]} Runs | Required Run Rate: {rrr} | ') if target[0] != -5 else ''}Net Run Rate: {round((runsScored1/(bowlsPlayed1 if bowlsPlayed1 !=0 else 1))*6, 2)}\nOvers: {oversPlayed1 if i!=5 else oversPlayed1+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored1}-{wicketsDown1}\n{names[partners1[0][0]]+'*' if Next==1 else names[partners1[0][0]]}: {partners1[0][1][0]}|{partners1[0][1][1]}\t\t{names[partners1[1][0]]+'*' if Next==0 else names[partners1[1][0]]}: {partners1[1][1][0]}|{partners1[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver1)}\n{names[c1]}: {Bowlers2[c1][0]}-{Bowlers2[c1][2]} | {Bowlers2[c1][1] if i!=5 else Bowlers2[c1][1]+1}.{i+1 if i!=5 else 0}")
             else:
                 print(f"\nRun Rate: {round((runsScored1/(bowlsPlayed1 if bowlsPlayed1 !=0 else 1))*6, 2)}\nOvers: {oversPlayed1 if i!=5 else oversPlayed1+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored1}-{wicketsDown1}\n{names[partners1[0][0]]+'*' if Next==1 else names[partners1[0][0]]}: {partners1[0][1][0]}|{partners1[0][1][1]}\t\t{names[partners1[1][0]]+'*' if Next==0 else names[partners1[1][0]]}: {partners1[1][1][0]}|{partners1[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver1)}\n{names[c1]}: {Bowlers2[c1][0]}-{Bowlers2[c1][2]} | {Bowlers2[c1][1] if i!=5 else Bowlers2[c1][1]+1}.{i+1 if i!=5 else 0}")
@@ -307,6 +346,17 @@ def bowling(target,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored
                 partners1[active][1][0]+=d
                 partners1[active][1][1]+=1
                 runsScored1+=d
+                # print(f'before adding {Batsman[partners[active][0]][3][0]} and {partners[active][1][0]}')
+                if partners1[active][1][0] > 30 and Batsman2[partners1[active][0]][3][0]==False:
+                    print('inside 30 adding')
+                    Batsman2[partners1[active][0]][2]+=random.randint(1,3)
+                    Batsman2[partners1[active][0]][3][0]=True
+                if partners1[active][1][0]>50 and Batsman2[partners1[active][0]][3][1]==False:
+                    Batsman2[partners1[active][0]][2]+=random.randint(1,2)
+                    Batsman2[partners1[active][0]][3][1]=True
+                if partners1[active][1][0]>100 and Batsman2[partners1[active][0]][3][2]==False:
+                    Batsman2[partners1[active][0]][2]+=random.randint(1,2)
+                    Batsman2[partners1[active][0]][3][2]=True   
                 currentOver1.append(str(d))
                 if d%2 != 0:
                     nexttemp = 0 if Next == 1 else 1
@@ -363,11 +413,28 @@ if toss[0] == True and toss[1] == 2 or toss[0] == False and toss[1] == 1:
     
     bowling(target,totalOvers1, bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored1,1,a1,c1,Bowlers2,Batsman2,names,type1,firstbattingfirstbowling,totalOvers, bowlsPlayed,oversPlayed,wicketsDown,runsScored,c,Bowlers,Batsman)
 if toss[0] == True and toss[1] == 1 or toss[0] == False and toss[1] == 2:
-    a = input("Choose the First Batsman: ")
-    b = input("Choose the Second Batsman: ")
+    print("Available Batsman to chose from")
+    for i,j in Batsman.items():
+        print("-> ",i)
+    while True:
+        a = input("Choose the First Batsman: ")
+        if a not in Batsman.keys():
+            print('Try again, batsman not in list.')
+            continue
+        else:
+            break
+    while True:
+        b = input("Choose the Second Batsman: ")
+        if b not in Batsman.keys() or b==a:
+            print('Try again, batsman not in list or already chosed.')
+            continue
+        else:
+            break
+        
     firstbattingfirstbowling = [1,2]
 
     partners = [[a,[0,0,{0:0, 1:0,2:0,3:0,4:0,6:0,-1:0}]],[b,[0,0,{0:0,1:0,2:0,3:0,4:0,6:0,-1:0}]]]
+    # print(partners[0][1][3][0])
     current = partners[0]
 
     batting(partners,target,totalOvers, bowlsPlayed,oversPlayed,wicketsDown,runsScored,1,a,c,Bowlers,Batsman,names,type1,current,firstbattingfirstbowling,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored1,a1,0,Bowlers2,Batsman2)
