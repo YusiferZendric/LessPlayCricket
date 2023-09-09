@@ -131,7 +131,9 @@ def batting(partners,target,totalOvers,bowlsPlayed,oversPlayed,wicketsDown,runsS
                     currentOver.append('0')
                     scorecard()
                     
-                else:
+                elif Batsman[partners[active][0]][2]-1 == 0:
+                    Batsman[partners[active][0]][2]-=1
+                    # print("Batsman: ",Batsman)
                     active = 0 if Next == 1 else 1
                     wicketsDown+=1
                     Bowlers[c][2]+=1
@@ -139,14 +141,19 @@ def batting(partners,target,totalOvers,bowlsPlayed,oversPlayed,wicketsDown,runsS
                     Batsman[partners[active][0]][0]+=partners[active][1][0]
                     Batsman[partners[active][0]][1]+=partners[active][1][1]
                     currentOver.append('W')
-                    while True:
-                        try:
-                            a = input(f"{partners[active][0]} is out!\nChoose the next batsman!\n>> ")
+                    for batsman,second in Batsman.items():
+                        print("-> ", batsman)     
+                    while True:   
+                                         
+                        a = input(f"{partners[active][0]} is out!\nChoose the next batsman!\n>> ")
+                        if a in Batsman and Batsman[a][2] == 0:
+                            print('Batsman is already OUT! Choose any other.')
+                            continue
+                        elif a in Batsman and Batsman[a][2]!=0:
                             partners[active] = [a,[0,0,{0:0, 1:0,2:0,3:0,4:0,6:0,-1:0}]]
                             D = Batsman[a]
                             break
-                        except:
-                            print("Batsman not found! Try Again..")
+                        
                     
                     scorecard()
             else:
