@@ -1,4 +1,5 @@
-import random, os
+import random
+import os
 global partners,c,type1,allout
 Bowlers = {"woakes":[0,0,0], "archer":[0,0,0],"liam":[0,0,0],"wood":[0,0,0],"rashid":[0,0,0],"stokes":[0,0,0]} #livingston,mohd ali, sam curran, chris jordan
 Bowlers2 = {"jadeja":[0,0,0], "bhuvi":[0,0,0],"pandaya":[0,0,0],"shami":[0,0,0],"bumrah":[0,0,0],"chahal":[0,0,0]}
