@@ -89,7 +89,7 @@ def batting(partners,target,totalOvers,bowlsPlayed,oversPlayed,wicketsDown,runsS
                     a = target[0] - runsScored
                     b = {"t20i":120,"odi":300}[type1]
                     totalbowls = oversPlayed*6 + bowlsPlayed
-                    rrr = round(a/(b-totalbowls)*6,2)
+                    rrr = round((a/(b-totalbowls))*6,2)
                 print(f"{(f'Target: {target[0]} Runs | Required Run Rate: {rrr} | ') if target[0] != -5 else ''}Net Run Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {Bowlers[c][0]}-{Bowlers[c][2]} | {Bowlers[c][1] if i!=5 else Bowlers[c][1]+1}.{i+1 if i!=5 else 0}")
             else:
                 print(f"\nRun Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {Bowlers[c][0]}-{Bowlers[c][2]} | {Bowlers[c][1] if i!=5 else Bowlers[c][1]+1}.{i+1 if i!=5 else 0}")
@@ -255,10 +255,12 @@ def bowling(target,totalOvers1,bowlsPlayed1,oversPlayed1,wicketsDown1,runsScored
         def scorecard():
             if type1 == "t20i" or type1 == "odi":
                 if target[0] != -5:
-                    a = target[0] - runsScored
+                    a = target[0] - runsScored1
+                    # print(f"a: {a}")
                     b = {"t20i":120,"odi":300}[type1]
-                    totalbowls = oversPlayed*6 + bowlsPlayed
-                    rrr = round(a/(b-totalbowls)*6,2)
+                    totalbowls = oversPlayed1*6 + bowlsPlayed1
+                    # print(f"total bowls: {totalbowls}")
+                    rrr = round((a/(b-totalbowls))*6,2)
                 print(f"{(f'Target: {target[0]} Runs | Required Run Rate: {rrr} | ') if target[0] != -5 else ''}Net Run Rate: {round((runsScored1/(bowlsPlayed1 if bowlsPlayed1 !=0 else 1))*6, 2)}\nOvers: {oversPlayed1 if i!=5 else oversPlayed1+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored1}-{wicketsDown1}\n{names[partners1[0][0]]+'*' if Next==1 else names[partners1[0][0]]}: {partners1[0][1][0]}|{partners1[0][1][1]}\t\t{names[partners1[1][0]]+'*' if Next==0 else names[partners1[1][0]]}: {partners1[1][1][0]}|{partners1[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver1)}\n{names[c1]}: {Bowlers2[c1][0]}-{Bowlers2[c1][2]} | {Bowlers2[c1][1] if i!=5 else Bowlers2[c1][1]+1}.{i+1 if i!=5 else 0}")
             else:
                 print(f"\nRun Rate: {round((runsScored1/(bowlsPlayed1 if bowlsPlayed1 !=0 else 1))*6, 2)}\nOvers: {oversPlayed1 if i!=5 else oversPlayed1+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored1}-{wicketsDown1}\n{names[partners1[0][0]]+'*' if Next==1 else names[partners1[0][0]]}: {partners1[0][1][0]}|{partners1[0][1][1]}\t\t{names[partners1[1][0]]+'*' if Next==0 else names[partners1[1][0]]}: {partners1[1][1][0]}|{partners1[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver1)}\n{names[c1]}: {Bowlers2[c1][0]}-{Bowlers2[c1][2]} | {Bowlers2[c1][1] if i!=5 else Bowlers2[c1][1]+1}.{i+1 if i!=5 else 0}")
