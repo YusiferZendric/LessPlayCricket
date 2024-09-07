@@ -1,11 +1,11 @@
 import random
 import os
-global partners, c, type1, allout, EnglishBatsman, IndianBatsman, IndianBowlers, EnglishBowlers
+global partners, c, type1, allout, AustralianBatsman, IndianBatsman, IndianBowlers, AustralianBowlers
 with open('highlights.txt', 'w') as e:
   e.write("")
 with open("req.txt", 'w') as e1:
   e1.write("")
-EnglishBowlers = {
+AustralianBowlers = {
     "johnson": [0, 0, 0],
     "hazlewood": [0, 0, 0],
     "abott": [0, 0, 0],
@@ -87,7 +87,7 @@ IndianBatsman = {
     "shami": [0, 0, random.randint(1, 2), [False, False, False], [0, 0]],
     "krishna": [0, 0, random.randint(1, 2), [False, False, False], [0, 0]]
 }
-EnglishBatsman = {
+AustralianBatsman = {
     "short": [0, 0, random.randint(1, arg2), [False, False, False], [0, 0]],
     "warner": [0, 0,
                 random.randint(1, arg2), [False, False, False], [0, 0]],
@@ -131,7 +131,7 @@ combinedStars = 0
 combinedStars2 = 0
 for i, j in IndianBatsman.items():
   combinedStars += j[2]
-for i, j in EnglishBatsman.items():
+for i, j in AustralianBatsman.items():
   combinedStars2 += j[2]
 bowlerChoice = []
 battinglist = list(IndianBatsman.keys())
@@ -166,7 +166,7 @@ def randomPlay(perc, team):
       reqStars += j[2]
   if team == "Australia":
     totalStars = combinedStars2
-    for i, j in EnglishBatsman.items():
+    for i, j in AustralianBatsman.items():
       reqStars += j[2]
   starsRemains = round((reqStars / totalStars) * 100)
 
@@ -342,10 +342,10 @@ Toss()
 
 
 def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
-            wicketsDown, runsScored, Next, a, c, EnglishBowlers, IndianBatsman,
+            wicketsDown, runsScored, Next, a, c, AustralianBowlers, IndianBatsman,
             names, type1, current, fbfb, totalOvers1, bowlsPlayed1,
             oversPlayed1, wicketsDown1, runsScored1, a1, c1, IndianBowlers,
-            EnglishBatsman):
+            AustralianBatsman):
   batterslist = list(IndianBatsman.keys())
   batterchoices = []
   bowler = []
@@ -381,9 +381,9 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
               break
 
         bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
-                runsScored1, 1, a1, c1, IndianBowlers, EnglishBatsman, names,
+                runsScored1, 1, a1, c1, IndianBowlers, AustralianBatsman, names,
                 type1, firstbattingfirstbowling, totalOvers, bowlsPlayed,
-                oversPlayed, wicketsDown, runsScored, c, EnglishBowlers,
+                oversPlayed, wicketsDown, runsScored, c, AustralianBowlers,
                 IndianBatsman)
 
         return
@@ -396,9 +396,9 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
               target = (runsScored-margin)+1
               print(f"Australia need {target} runs to win!")
               bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
-                runsScored1, 1, a1, c1, IndianBowlers, EnglishBatsman, names,
+                runsScored1, 1, a1, c1, IndianBowlers, AustralianBatsman, names,
                 type1, firstbattingfirstbowling, totalOvers, bowlsPlayed,
-                oversPlayed, wicketsDown, runsScored, c, EnglishBowlers,
+                oversPlayed, wicketsDown, runsScored, c, AustralianBowlers,
                 IndianBatsman)
 
             elif runsScored<margin and leadortrail=='trail':
@@ -442,7 +442,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
         SaveScores("Australian Team\n")
-        for i, j in EnglishBatsman.items():
+        for i, j in AustralianBatsman.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
@@ -451,7 +451,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores("Australian Bowlers\n")
-        for i, j in EnglishBowlers.items():
+        for i, j in AustralianBowlers.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores(f"India: {runsScored}-{wicketsDown}\n")
@@ -477,7 +477,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
         # print(f"partners: {partners}")
         try:
           print(
-              f"{(f'Target: {target[0]} Runs | Required Run Rate: {rrr} | ') if target[0] != -5 else ''}Net Run Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {EnglishBowlers[c][0]}-{EnglishBowlers[c][2]} | {EnglishBowlers[c][1] if i!=5 else EnglishBowlers[c][1]+1}.{i+1 if i!=5 else 0}"
+              f"{(f'Target: {target[0]} Runs | Required Run Rate: {rrr} | ') if target[0] != -5 else ''}Net Run Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {AustralianBowlers[c][0]}-{AustralianBowlers[c][2]} | {AustralianBowlers[c][1] if i!=5 else AustralianBowlers[c][1]+1}.{i+1 if i!=5 else 0}"
           )
         except:
           while True:
@@ -490,12 +490,12 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
           result = "trail" if req > 0 else "lead"
           req = (req**2)**(1/2)
           print(
-              f"India {result} by {req} runs\nRun Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {EnglishBowlers[c][0]}-{EnglishBowlers[c][2]} | {EnglishBowlers[c][1] if i!=5 else EnglishBowlers[c][1]+1}.{i+1 if i!=5 else 0}"
+              f"India {result} by {req} runs\nRun Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {AustralianBowlers[c][0]}-{AustralianBowlers[c][2]} | {AustralianBowlers[c][1] if i!=5 else AustralianBowlers[c][1]+1}.{i+1 if i!=5 else 0}"
           )
           pass
         else:
           print(
-              f"Run Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {EnglishBowlers[c][0]}-{EnglishBowlers[c][2]} | {EnglishBowlers[c][1] if i!=5 else EnglishBowlers[c][1]+1}.{i+1 if i!=5 else 0}"
+              f"Run Rate: {round((runsScored/(bowlsPlayed if bowlsPlayed !=0 else 1))*6, 2)}\nOvers: {oversPlayed if i!=5 else oversPlayed+1}.{i+1 if i!=5 else 0}\t\t\tScore: {runsScored}-{wicketsDown}\n{names[partners[0][0]]+'*' if Next==1 else names[partners[0][0]]}: {partners[0][1][0]}|{partners[0][1][1]}\t\t{names[partners[1][0]]+'*' if Next==0 else names[partners[1][0]]}: {partners[1][1][0]}|{partners[1][1][1]}\n\nCurrent Over: {' | '.join(currentOver)}\n{names[c]}: {AustralianBowlers[c][0]}-{AustralianBowlers[c][2]} | {AustralianBowlers[c][1] if i!=5 else AustralianBowlers[c][1]+1}.{i+1 if i!=5 else 0}"
           )
       
     totalOvers += 1
@@ -521,7 +521,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
         SaveScores("Australian Team\n")
-        for i, j in EnglishBatsman.items():
+        for i, j in AustralianBatsman.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
@@ -530,7 +530,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores("Australian Bowlers\n")
-        for i, j in EnglishBowlers.items():
+        for i, j in AustralianBowlers.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores(f"India: {runsScored}-{wicketsDown}\n")
@@ -606,7 +606,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
                 f"{partners[active][0]}'s Wagon Wheel: {partners[active][1][2]}\nTeam Wagon Wheel: {totalw[maindict[battingTeam]]}"
             )
           elif d == "b":
-            print(EnglishBowlers)
+            print(AustralianBowlers)
             # pass
           elif d == "B":
             print(IndianBatsman)
@@ -657,13 +657,13 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
           print("Batsman: ", IndianBatsman)
           active = 0 if Next == 1 else 1
           wicketsDown += 1
-          EnglishBowlers[c][2] += 1
+          AustralianBowlers[c][2] += 1
           partners[active][1][1] += 1
           # IndianBatsman[partners[active][0]][0]+=partners[active][1][0]
           IndianBatsman[partners[active][0]][1] += 1
           # print(c)
           SaveScores(
-              f"Indian Player {names[partners[active][0]]} out after scoring {IndianBatsman[partners[active][0]][0]} Runs | {IndianBatsman[partners[active][0]][1]} Bowls, wicket by bowler {names[c]} | Current Wicket count of {names[c]}: {EnglishBowlers[c][2]} wickets Bowler has bowled {EnglishBowlers[c][1]} overs and given {EnglishBowlers[c][0]} Runs\n"
+              f"Indian Player {names[partners[active][0]]} out after scoring {IndianBatsman[partners[active][0]][0]} Runs | {IndianBatsman[partners[active][0]][1]} Bowls, wicket by bowler {names[c]} | Current Wicket count of {names[c]}: {AustralianBowlers[c][2]} wickets Bowler has bowled {AustralianBowlers[c][1]} overs and given {AustralianBowlers[c][0]} Runs\n"
           )
           currentOver.append('W')
           for batsman, second in IndianBatsman.items():
@@ -675,7 +675,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
             break
             # print("Team all out!")
             # partners1[active] = [a1,[0,0,{0:0, 1:0,2:0,3:0,4:0,6:0,-1:0}]]
-            # D = EnglishBatsman[a1]
+            # D = AustralianBatsman[a1]
             # break
             # allout = True
 
@@ -746,7 +746,7 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
         active = 0 if Next == 1 else 1
         partners[active][1][2][d] += 1
         totalw[maindict[battingTeam]][d] += 1
-        EnglishBowlers[c][0] += d
+        AustralianBowlers[c][0] += d
         partners[active][1][0] += d
         # print(IndianBatsman)
         if d == 6: IndianBatsman[partners[active][0]][4][1] += 1
@@ -781,17 +781,17 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
         scorecard(partners)
 
     # partners[active] = partners[Next]
-    EnglishBowlers[c][1] += 1
+    AustralianBowlers[c][1] += 1
     oversPlayed += 1
     nexttemp = 0 if Next == 1 else 1
     Next = nexttemp
     print(f"Previous Bowler: {names[c]}")
-    # print(EnglishBowlers)
+    # print(AustralianBowlers)
     while True:
       C = random.choice(
-          list(EnglishBowlers.keys()))
+          list(AustralianBowlers.keys()))
       main = {'odi': 10, 't20i': 4, 'test': 1000}
-      if EnglishBowlers[C][1] >= main[type1]:
+      if AustralianBowlers[C][1] >= main[type1]:
         continue
       if C == c:
         continue
@@ -849,10 +849,10 @@ def batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
 
 
 def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
-            runsScored1, Next, a1, c1, IndianBowlers, EnglishBatsman, names,
+            runsScored1, Next, a1, c1, IndianBowlers, AustralianBatsman, names,
             type1, fbfb, totalOvers, bowlsPlayed, oversPlayed, wicketsDown,
-            runsScored, c, EnglishBowlers, IndianBatsman):
-  batterslist = list(EnglishBatsman.keys())
+            runsScored, c, AustralianBowlers, IndianBatsman):
+  batterslist = list(AustralianBatsman.keys())
   allout = 0
 
   def checkPercentage(n, m):
@@ -872,13 +872,13 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
       if target[0] == -5:
         target.remove(-5)
         target.append(runsScored1 + 1)
-        for i, j in EnglishBatsman.items():
+        for i, j in AustralianBatsman.items():
           if j[1] != 0 and j[2] != 0:
             SaveScores(
                 f"Australian Player {names[i]} is Not Out with {j[0]} Runs in {j[1]} Bowls\n"
             )
         print(f"Target for India to chase: {target[0]} Runs")
-        # print(f"EnglishBatsman: {EnglishBatsman}")
+        # print(f"AustralianBatsman: {AustralianBatsman}")
         SaveScores(
             f"India has to chase down {target[0]} runs, set by Australia\n")
 
@@ -958,25 +958,25 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
           # continue
           # print(partners)
           batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
-                  wicketsDown, runsScored, 1, a, c, EnglishBowlers,
+                  wicketsDown, runsScored, 1, a, c, AustralianBowlers,
                   IndianBatsman, names, type1, partners[active],
                   firstbattingfirstbowling, totalOvers1, bowlsPlayed1,
                   oversPlayed1, wicketsDown1, runsScored1, a1, 0,
-                  IndianBowlers, EnglishBatsman)
+                  IndianBowlers, AustralianBatsman)
           # break
           break
         else:
           print(f"Partner 1: {partners[0]} | Partner 2: {partners[1]}")
           batting(partners, target, totalOvers, bowlsPlayed, oversPlayed,
-                  wicketsDown, runsScored, 1, a, c, EnglishBowlers,
+                  wicketsDown, runsScored, 1, a, c, AustralianBowlers,
                   IndianBatsman, names, type1, partners[active],
                   firstbattingfirstbowling, totalOvers1, bowlsPlayed1,
                   oversPlayed1, wicketsDown1, runsScored1, a1, 0,
-                  IndianBowlers, EnglishBatsman)
+                  IndianBowlers, AustralianBatsman)
           break
       else:
         if target[0] > runsScored1:
-          for i, j in EnglishBatsman.items():
+          for i, j in AustralianBatsman.items():
             if j[1] != 0 and j[2] != 0:
               SaveScores(
                   f"Australian Player {names[i]} is Not Out with {j[0]} Runs in {j[1]} Bowls\n"
@@ -1062,11 +1062,11 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
               # print(partners)
               # continue
               batting(partners, f"lead:{lead}", totalOvers, bowlsPlayed, oversPlayed,
-                      wicketsDown, runsScored, 1, a, c, EnglishBowlers,
+                      wicketsDown, runsScored, 1, a, c, AustralianBowlers,
                       IndianBatsman, names, type1, partners[active],
                       firstbattingfirstbowling, totalOvers1, bowlsPlayed1,
                       oversPlayed1, wicketsDown1, runsScored1, a1, 0,
-                      IndianBowlers, EnglishBatsman)
+                      IndianBowlers, AustralianBatsman)
               # break
               break
           
@@ -1078,7 +1078,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
               f"{maindict[fbfb[0]]} Won the Match by {target[0]-runsScored1-1} Runs!\n"
           )
         elif target[0] <= runsScored1:
-          for i, j in EnglishBatsman.items():
+          for i, j in AustralianBatsman.items():
             if j[1] != 0 and j[2] != 0:
               SaveScores(
                   f"Australian Player {names[i]} is Not Out with {j[0]} Runs in {j[1]} Bowls\n"
@@ -1164,11 +1164,11 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
               # print(partners)
               # continue
               batting(partners, f"trail:{trail}", totalOvers, bowlsPlayed, oversPlayed,
-                      wicketsDown, runsScored, 1, a, c, EnglishBowlers,
+                      wicketsDown, runsScored, 1, a, c, AustralianBowlers,
                       IndianBatsman, names, type1, partners[active],
                       firstbattingfirstbowling, totalOvers1, bowlsPlayed1,
                       oversPlayed1, wicketsDown1, runsScored1, a1, 0,
-                      IndianBowlers, EnglishBatsman)
+                      IndianBowlers, AustralianBatsman)
               # break
               break
           print(
@@ -1184,7 +1184,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
         SaveScores("Australian Team\n")
-        for i, j in EnglishBatsman.items():
+        for i, j in AustralianBatsman.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
@@ -1193,7 +1193,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores("Australian Bowlers\n")
-        for i, j in EnglishBowlers.items():
+        for i, j in AustralianBowlers.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores(f"India: {runsScored}-{wicketsDown}\n")
@@ -1249,7 +1249,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
     currentOver1 = []
     for i in range(6):
       if target[0] <= runsScored1 and target[0] != -5:
-        for i, j in EnglishBatsman.items():
+        for i, j in AustralianBatsman.items():
           if j[1] != 0 and j[2] != 0:
             SaveScores(
                 f"Australian Player {names[i]} is Not Out with {j[0]} Runs in {j[1]} Bowls\n"
@@ -1264,7 +1264,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
         SaveScores("Australian Team\n")
-        for i, j in EnglishBatsman.items():
+        for i, j in AustralianBatsman.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Bowls | {j[4][0]} Fours | {j[4][1]} Sixes\n"
           )
@@ -1273,7 +1273,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores("Australian Bowlers\n")
-        for i, j in EnglishBowlers.items():
+        for i, j in AustralianBowlers.items():
           SaveScores(
               f"{names[i]}: {j[0]} Runs | {j[1]} Overs | {j[2]} wickets\n")
         SaveScores(f"India: {runsScored}-{wicketsDown}\n")
@@ -1308,7 +1308,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
               print(IndianBowlers)
               # break
             elif choice == "B":
-              print(EnglishBatsman)
+              print(AustralianBatsman)
               # break
             elif choice == "":
               choice = random.choice(bowlerChoice)
@@ -1330,37 +1330,37 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
         os.system("cls")
       if d == choice:
         active = 0 if Next == 1 else 1
-        if EnglishBatsman[partners1[active][0]][2] - 1 > 0:
-          EnglishBatsman[partners1[active][0]][2] -= 1
+        if AustralianBatsman[partners1[active][0]][2] - 1 > 0:
+          AustralianBatsman[partners1[active][0]][2] -= 1
           try:
             print(
-                f"One life gone for {names[partners1[active][0]]}\nRemaining life: {EnglishBatsman[partners1[active][0]][2]}"
+                f"One life gone for {names[partners1[active][0]]}\nRemaining life: {AustralianBatsman[partners1[active][0]][2]}"
             )
             # print(commentary(f"MISSED CHANCE! GENERATE A SCENARIO OF WHAT HAPPENED ON THIS BOWL, {names[partners1[active][0]]} survived against {names[c1]}"))
           except:
             print("error!")
           partners1[active][1][1] += 1
-          EnglishBatsman[partners1[active][0]][1] += 1
+          AustralianBatsman[partners1[active][0]][1] += 1
 
           currentOver1.append('0')
           scorecard()
 
-        elif EnglishBatsman[partners1[active][0]][2] - 1 == 0:
-          EnglishBatsman[partners1[active][0]][2] = 0
+        elif AustralianBatsman[partners1[active][0]][2] - 1 == 0:
+          AustralianBatsman[partners1[active][0]][2] = 0
           active = 0 if Next == 1 else 1
-          # EnglishBatsman[partners1[active][0]][2]-=1
+          # AustralianBatsman[partners1[active][0]][2]-=1
           wicketsDown1 += 1
           try:
             IndianBowlers[c1][2] += 1
           except:
             c1 = random.choice(list(IndianBowlers.keys()))
           partners1[active][1][1] += 1
-          # EnglishBatsman[partners1[active][0]][0]+=partners1[active][1][0]
-          EnglishBatsman[partners1[active][0]][1] += 1
+          # AustralianBatsman[partners1[active][0]][0]+=partners1[active][1][0]
+          AustralianBatsman[partners1[active][0]][1] += 1
           currentOver1.append('W')
           # print(batterslist)
           SaveScores(
-              f"Australian player {names[partners1[active][0]]} out after scoring {EnglishBatsman[partners1[active][0]][0]} Runs | {EnglishBatsman[partners1[active][0]][1]} Bowls, wicket by Indian bowler {names[c1]}:  | Current Wicket count of {names[c1]}: {IndianBowlers[c1][2]} wickets.Bowler has bowled {IndianBowlers[c1][1]} overs and given {IndianBowlers[c1][0]} Runs\n"
+              f"Australian player {names[partners1[active][0]]} out after scoring {AustralianBatsman[partners1[active][0]][0]} Runs | {AustralianBatsman[partners1[active][0]][1]} Bowls, wicket by Indian bowler {names[c1]}:  | Current Wicket count of {names[c1]}: {IndianBowlers[c1][2]} wickets.Bowler has bowled {IndianBowlers[c1][1]} overs and given {IndianBowlers[c1][0]} Runs\n"
           )
 
           print(partners1[active][0])
@@ -1406,7 +1406,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
                       -1: 0
                   }]
               ]
-              # D = EnglishBatsman[a1]
+              # D = AustralianBatsman[a1]
               break
             except:
               # if wicketsDown1==10:
@@ -1415,7 +1415,7 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
               print("Team all out!")
               # SaveScores("Australia Team All out!\n")
               # partners1[active] = [a1,[0,0,{0:0, 1:0,2:0,3:0,4:0,6:0,-1:0}]]
-              # D = EnglishBatsman[a1]
+              # D = AustralianBatsman[a1]
               allout = True
               break
           if allout == True:
@@ -1432,29 +1432,29 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
         except:
           c1 = random.choice(list(IndianBowlers.keys()))
           IndianBowlers[c1][0] += d
-        if d == 6: EnglishBatsman[partners1[active][0]][4][1] += 1
-        if d == 4: EnglishBatsman[partners1[active][0]][4][0] += 1
+        if d == 6: AustralianBatsman[partners1[active][0]][4][1] += 1
+        if d == 4: AustralianBatsman[partners1[active][0]][4][0] += 1
         partners1[active][1][0] += d
         partners1[active][1][1] += 1
-        EnglishBatsman[partners1[active][0]][0] += d
-        EnglishBatsman[partners1[active][0]][1] += 1
-        # print(f"After adding: {EnglishBatsman}")
+        AustralianBatsman[partners1[active][0]][0] += d
+        AustralianBatsman[partners1[active][0]][1] += 1
+        # print(f"After adding: {AustralianBatsman}")
 
         runsScored1 += d
         # print(f'before adding {IndianBatsman[partners[active][0]][3][0]} and {partners[active][1][0]}')
-        if partners1[active][1][0] > 30 and EnglishBatsman[partners1[active]
+        if partners1[active][1][0] > 30 and AustralianBatsman[partners1[active]
                                                            [0]][3][0] == False:
           # print('inside 30 adding')
-          EnglishBatsman[partners1[active][0]][2] += random.randint(1, 2)
-          EnglishBatsman[partners1[active][0]][3][0] = True
-        if partners1[active][1][0] > 50 and EnglishBatsman[partners1[active]
+          AustralianBatsman[partners1[active][0]][2] += random.randint(1, 2)
+          AustralianBatsman[partners1[active][0]][3][0] = True
+        if partners1[active][1][0] > 50 and AustralianBatsman[partners1[active]
                                                            [0]][3][1] == False:
-          EnglishBatsman[partners1[active][0]][2] += random.randint(1, 2)
-          EnglishBatsman[partners1[active][0]][3][1] = True
-        if partners1[active][1][0] > 100 and EnglishBatsman[
+          AustralianBatsman[partners1[active][0]][2] += random.randint(1, 2)
+          AustralianBatsman[partners1[active][0]][3][1] = True
+        if partners1[active][1][0] > 100 and AustralianBatsman[
             partners1[active][0]][3][2] == False:
-          EnglishBatsman[partners1[active][0]][2] += random.randint(1, 2)
-          EnglishBatsman[partners1[active][0]][3][2] = True
+          AustralianBatsman[partners1[active][0]][2] += random.randint(1, 2)
+          AustralianBatsman[partners1[active][0]][3][2] = True
         currentOver1.append(str(d))
         if d % 2 != 0:
           nexttemp = 0 if Next == 1 else 1
@@ -1490,8 +1490,8 @@ def bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
     c1 = C
 
 
-a1 = list(EnglishBatsman.keys())[0]
-b1 = list(EnglishBatsman.keys())[1]
+a1 = list(AustralianBatsman.keys())[0]
+b1 = list(AustralianBatsman.keys())[1]
 partners1 = [[a1, [0, 0, {
     0: 0,
     1: 0,
@@ -1517,7 +1517,7 @@ firstbattingfirstbowling = [2, 1]
 runsScored1 = 0
 target = [-5]
 
-c = random.choice(list(EnglishBowlers.keys()))
+c = random.choice(list(AustralianBowlers.keys()))
 oversPlayed = 0
 wicketsDown = 0
 runsScored = 0
@@ -1531,9 +1531,9 @@ if toss[0] == True and toss[1] == 2 or toss[0] == False and toss[1] == 1:
   firstbattingfirstbowling = [2, 1]
 
   bowling(target, totalOvers1, bowlsPlayed1, oversPlayed1, wicketsDown1,
-          runsScored1, 1, a1, c1, IndianBowlers, EnglishBatsman, names, type1,
+          runsScored1, 1, a1, c1, IndianBowlers, AustralianBatsman, names, type1,
           firstbattingfirstbowling, totalOvers, bowlsPlayed, oversPlayed,
-          wicketsDown, runsScored, c, EnglishBowlers, IndianBatsman)
+          wicketsDown, runsScored, c, AustralianBowlers, IndianBatsman)
 if toss[0] == True and toss[1] == 1 or toss[0] == False and toss[1] == 2:
   print("Available Batsman to chose from: ")
   for i, j in IndianBatsman.items():
@@ -1577,7 +1577,7 @@ if toss[0] == True and toss[1] == 1 or toss[0] == False and toss[1] == 2:
   current = partners[0]
 
   batting(partners, target, totalOvers, bowlsPlayed, oversPlayed, wicketsDown,
-          runsScored, 1, a, c, EnglishBowlers, IndianBatsman, names, type1,
+          runsScored, 1, a, c, AustralianBowlers, IndianBatsman, names, type1,
           current, firstbattingfirstbowling, totalOvers1, bowlsPlayed1,
           oversPlayed1, wicketsDown1, runsScored1, a1, 0, IndianBowlers,
-          EnglishBatsman)
+          AustralianBatsman)
