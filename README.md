@@ -19,7 +19,7 @@ This Python script simulates a cricket match between India and Australia. It all
 3. The toss will be simulated, and you'll be asked to make decisions if India wins the toss.
 4. Follow the prompts to select batsmen and bowlers.
 5. For batting, enter run values (0, 1, 2, 3, 4, 6) or press Enter for a random choice.
-6. For bowling, enter your bowling choice (1, 2, 4, 6) or press Enter for a random choice.
+6. For bowling, enter your bowling choice (1, 2, 3, 4, 6) or press Enter for a random choice.
 7. Use special commands during play:
    - 'w': View wagon wheel stats
    - 'b': View bowler stats
