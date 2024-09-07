@@ -1,6 +1,6 @@
 # Cricket Match Simulator
 
-This Python script simulates a cricket match between India and Australia. It allows users to play through a T20, ODI, or Test match, making decisions for batting and bowling.
+This Python script simulates a cricket match between India and Australia. It allows users to play through a T20, ODI, or Test match (Incomplete, I'm lazy), making decisions for batting and bowling.
 
 ## Features
 
