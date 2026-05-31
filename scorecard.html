@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Match Center</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #12181f; color: #fff; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { background: linear-gradient(135deg, #094a30, #1c2630); padding: 20px; text-align: center; border-radius: 8px; border: 1px solid #2a3b4c; margin-bottom: 20px; }
+        .ticker { background: #000; color: #f2a900; padding: 6px 15px; border-radius: 15px; font-weight: bold; font-size: 14px; margin-top: 10px; display: inline-block;}
+        .team-card { background: #1c2630; border: 1px solid #2a3b4c; border-radius: 8px; margin-bottom: 30px; overflow: hidden; }
+        .team-header { background: #0f8b5a; padding: 12px 20px; font-weight: bold; font-size: 18px; display: flex; justify-content: space-between; border-bottom: 3px solid #f2a900; }
+        .score-bubble { background: rgba(0,0,0,0.3); padding: 3px 10px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th, td { padding: 10px 15px; border-bottom: 1px solid #2a3b4c; }
+        th { color: #8b9eb3; font-size: 11px; text-transform: uppercase; }
+        .p-name { font-weight: 500; color: #e2e8f0; width: 22%; }
+        .p-dismissal { color: #8b9eb3; width: 33%; font-size: 12px; }
+        .s-main { font-weight: bold; color: #fff; }
+        .s-gold { color: #f2a900; }
+        .status-notout { color: #14ad71; font-weight: bold; }
+        .status-out { color: #ef4444; }
+        .status-dnb { color: #5a6b7c; }
+        .section-title { background: rgba(0,0,0,0.2); padding: 6px 20px; font-size: 11px; font-weight: bold; color: #8b9eb3; }
+    </style></head><body><div class="container">
+        <header><h2>TEST MATCH CENTER</h2><div class="ticker">LIVE MATCH</div></header>
+        
+        <div class="team-card">
+            <div class="team-header"><span>INNINGS 1 (LIVE): INDIA</span><span class="score-bubble">34/0 (5.2)</span></div>
+            <div class="section-title">BATTING</div>
+            <table><thead><tr><th>Batsman</th><th>Dismissal / Presence</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead><tbody><tr><td class='p-name'>Shubhman Gill</td><td class='p-dismissal'><span class='status-notout'>NOT OUT (72%)</span></td><td class='s-main'>12</td><td>11</td><td>1</td><td>0</td><td class='s-gold'>109.1</td></tr><tr><td class='p-name'>Aditya Singh</td><td class='p-dismissal'><span class='status-notout'>NOT OUT (84%)</span></td><td class='s-main'>22</td><td>20</td><td>4</td><td>0</td><td class='s-gold'>110.0</td></tr><tr><td class='p-name'>Shreyas Iyer (C)</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>KL Rahul</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>Ishan Kishan (WK)</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>Suryakumar Yadav</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>Ravindra Jadeja</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>Ravichandran Ashwin</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>Shardul Thakur</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>Mohammed Shami</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr><tr><td class='p-name'>Prasidh Krishna</td><td class='p-dismissal'><span class='status-dnb'>DNB</span></td><td class='s-main'>0</td><td>0</td><td>0</td><td>0</td><td class='s-gold'>0.0</td></tr></tbody></table>
+            <div class="section-title">BOWLING</div>
+            <table><thead><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Econ</th></tr></thead><tbody><tr><td class='p-name'>Spancer Johnson</td><td class='s-main'>1.0</td><td>8</td><td class='s-main'>0</td><td class='s-gold'>8.0</td></tr><tr><td class='p-name'>Josh Hazlewood</td><td class='s-main'>1.0</td><td>5</td><td class='s-main'>0</td><td class='s-gold'>5.0</td></tr><tr><td class='p-name'>Sean Abott</td><td class='s-main'>1.0</td><td>3</td><td class='s-main'>0</td><td class='s-gold'>3.0</td></tr><tr><td class='p-name'>Cameron Green</td><td class='s-main'>1.0</td><td>5</td><td class='s-main'>0</td><td class='s-gold'>5.0</td></tr><tr><td class='p-name'>Adam Zampa</td><td class='s-main'>1.0</td><td>13</td><td class='s-main'>0</td><td class='s-gold'>13.0</td></tr></tbody></table>
+        </div>
+    </div></body></html>
