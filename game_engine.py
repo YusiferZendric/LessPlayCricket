@@ -102,6 +102,7 @@ class CricketMatchEngine:
         current_batsmen = [keys[0], keys[1]] 
         remaining_keys = keys[2:]
         active_idx = 0
+        boundary_streak = {k: 0 for k in keys}
         
         def pick_auto_bowler(prev=""):
             avail = [b for b, st in bowlers_data.items() if (st[1]//6) < MATCH_TYPES[self.state.match_type]['max_bowler_overs'] and b != prev]
@@ -143,21 +144,36 @@ class CricketMatchEngine:
                 if self.state.sim_mode:
                     inp = ""
                 else:
-                    inp = input("Enter shot (0, 1, 2, 3, 4, 6) or 's' for Scorecard [Enter=Auto]: ").strip().lower() if is_user_batting else input("Enter bowl (1, 2, 3, 4, 6) or 's' for Scorecard [Enter=Auto]: ").strip().lower()
+                    if is_user_batting:
+                        inp = input("Enter shot (0, 1, 2, 3, 4, 6) or 's' for Scorecard [Enter=Auto]: ").strip().lower()
+                    else:
+                        # Strictly validate bowling input to reject 0 and 5
+                        while True:
+                            inp = input("Enter bowl (1, 2, 3, 4, 6) or 's' for Scorecard [Enter=Auto]: ").strip().lower()
+                            if inp in ["", "s", "1", "2", "3", "4", "6"]:
+                                break
+                            print("Invalid choice. Bowlers are not permitted to bowl 0 or 5.")
                 
                 if inp == 's':
                     from html_generator import generate_html_scorecard
                     path = generate_html_scorecard(self.state, batting_team, target=target)
                     webbrowser.open(f"file://{path}")
                     inp = input("Resuming... Enter action [Enter=Auto]: ").strip().lower()
+                    if not is_user_batting:
+                        while True:
+                            if inp in ["", "s", "1", "2", "3", "4", "6"]:
+                                break
+                            print("Invalid choice. Bowlers are not permitted to bowl 0 or 5.")
+                            inp = input("Resuming... Enter action [Enter=Auto]: ").strip().lower()
 
                 ai_val = run_ai_play(prog_pct, batting_team, self.state.match_type, self.state)
                 if is_user_batting:
-                    user_runs = int(inp) if inp in ['0','1','2','3','4','6'] else ai_val
+                    user_runs = int(inp) if inp in ['1','2','3','4','6'] else ai_val
                     bowler_choice = random.choice(delivery_pool)
                     shot_chosen = user_runs
                 else:
-                    bowler_choice = int(inp) if inp in ['1','2','3','4','6'] else random.choice(delivery_pool)
+                    # Enforce that only valid bowling values are processed
+                    bowler_choice = int(inp) if inp in ['1', '2', '3', '4', '6'] else random.choice([x for x in delivery_pool if x not in [0, 5]])
                     shot_chosen = ai_val
                 
                 bowling_bias = {1: -0.05, 2: -0.02, 3: 0.0, 4: 0.02, 6: 0.05}.get(bowler_choice, 0.0) if is_user_bowling and not is_user_batting else 0.0
@@ -165,42 +181,59 @@ class CricketMatchEngine:
                 is_wicket = False
                 runs_scored = 0
                 scoring = MATCH_SCORING[self.state.match_type]
-                manual_batting = is_user_batting and not self.state.sim_mode and inp in ['0','1','2','3','4','6']
 
-                if manual_batting:
-                    runs_scored = shot_chosen
-                    if runs_scored in [1, 2]:
-                        batsmen_data[active_key][6] = min(100, momentum + 5)
-                    elif runs_scored in [4, 6]:
-                        batsmen_data[active_key][6] = min(100, momentum + 10)
-                    else:
-                        batsmen_data[active_key][6] = max(10, momentum - 1)
+                # Track boundary streak
+                if shot_chosen in [4, 6]:
+                    boundary_streak[active_key] += 1
                 else:
-                    if shot_chosen in [4, 6]:
-                        success_threshold = scoring['boundary_base'] + (momentum / scoring['boundary_momentum_divisor']) + bowling_bias
-                        success_threshold = max(0.05, min(0.95, success_threshold))
-                        if random.random() < success_threshold:
-                            runs_scored = shot_chosen
-                            batsmen_data[active_key][6] = min(100, momentum + 10)
-                        else:
-                            out_threshold = scoring['boundary_wicket_base'] - (momentum / scoring['boundary_wicket_momentum_divisor']) - bowling_bias
-                            out_threshold = max(0.05, min(0.95, out_threshold))
-                            if random.random() < out_threshold:
-                                is_wicket = True
-                            else:
-                                runs_scored = random.choice([0, 1])
-                                batsmen_data[active_key][6] = max(10, momentum - 5)
+                    boundary_streak[active_key] = 0
+
+                # Calculate cumulative risk penalties for consecutive boundary attempts
+                streak = boundary_streak[active_key]
+                streak_penalty = 0.0
+                if streak > 1:
+                    if self.state.match_type == 'test':
+                        streak_penalty = 0.15 * (streak - 1)
+                    elif self.state.match_type == 'odi':
+                        streak_penalty = 0.08 * (streak - 1)
+                    else:  # t20i
+                        streak_penalty = 0.04 * (streak - 1)
+
+                if shot_chosen in [4, 6]:
+                    success_threshold = scoring['boundary_base'] + (momentum / scoring['boundary_momentum_divisor']) + bowling_bias - streak_penalty
+                    success_threshold = max(0.02, min(0.95, success_threshold))
+                    
+                    if random.random() < success_threshold:
+                        runs_scored = shot_chosen
+                        momentum_gain = max(1, 10 - int(streak_penalty * 20))
+                        batsmen_data[active_key][6] = min(100, momentum + momentum_gain)
                     else:
-                        success_threshold = scoring['shot_base'] + (momentum / scoring['shot_momentum_divisor']) + bowling_bias
-                        success_threshold = max(0.05, min(0.95, success_threshold))
-                        if random.random() < success_threshold:
-                            runs_scored = shot_chosen
-                            if runs_scored in [1, 2]:
-                                batsmen_data[active_key][6] = min(100, momentum + 5)
-                            else:
-                                batsmen_data[active_key][6] = max(10, momentum - 1)
-                        else:
+                        out_threshold = scoring['boundary_wicket_base'] - (momentum / scoring['boundary_wicket_momentum_divisor']) - bowling_bias + streak_penalty
+                        out_threshold = max(0.05, min(0.95, out_threshold))
+                        if random.random() < out_threshold:
                             is_wicket = True
+                        else:
+                            runs_scored = random.choice([0, 1])
+                            batsmen_data[active_key][6] = max(10, momentum - 5 - int(streak_penalty * 10))
+                else:
+                    # Provide safety bonuses for defensive blocks (0) and placement shots (1, 2)
+                    safety_bonus = 0.0
+                    if shot_chosen == 0:
+                        safety_bonus = 0.35 if self.state.match_type == 'test' else 0.25
+                    elif shot_chosen in [1, 2]:
+                        safety_bonus = 0.15 if self.state.match_type == 'test' else 0.10
+
+                    success_threshold = scoring['shot_base'] + (momentum / scoring['shot_momentum_divisor']) + bowling_bias + safety_bonus
+                    success_threshold = max(0.05, min(0.98, success_threshold))
+                    
+                    if random.random() < success_threshold:
+                        runs_scored = shot_chosen
+                        if runs_scored in [1, 2]:
+                            batsmen_data[active_key][6] = min(100, momentum + 5)
+                        else:
+                            batsmen_data[active_key][6] = max(10, momentum - 1)
+                    else:
+                        is_wicket = True
 
                 # AI Strike rotation limits
                 if self.state.match_type == 'test' and self.state.wickets > 5 and not is_wicket:
@@ -216,6 +249,7 @@ class CricketMatchEngine:
                     if batsmen_data[active_key][2] > 1:
                         batsmen_data[active_key][2] -= 1; current_over_log.append('0')
                         batsmen_data[active_key][1] += 1
+                        boundary_streak[active_key] = 0
                         if not self.state.sim_mode:
                             print(f"Chance missed! {PLAYERS[active_key]} survived."); input("...")
                     else:
@@ -234,6 +268,7 @@ class CricketMatchEngine:
                         if self.state.wickets < 10 and remaining_keys:
                             next_b = remaining_keys.pop(0)
                             current_batsmen[active_idx] = next_b
+                            boundary_streak[next_b] = 0
                         else: break
                 else:
                     self.state.runs += runs_scored; current_over_log.append(str(runs_scored))
